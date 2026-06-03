@@ -17,6 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashboardPanel = document.getElementById('dashboardPanel');
     const logoutBtn = document.getElementById('logoutBtn');
 
+    // Tabs navigation
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            btn.classList.add('active');
+            const activeContent = document.getElementById(`${tabName}-tab`);
+            if (activeContent) activeContent.classList.add('active');
+        });
+    });
+
     if (loginForm) {
         initLoginForm(loginForm);
     }
