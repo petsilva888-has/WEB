@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - São Paulo FC</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page">
+        <div class="page__background"></div>
+
+        <main class="card">
+            <div class="brand">
+                <img src="assets/crest.png.png" alt="Escudo São Paulo FC" class="brand__logo" />
+                <h1>São Paulo FC</h1>
+                <p class="brand__subtitle">Painel do torcedor</p>
+            </div>
+
+            <div class="topbar">
+                <div class="user" id="userTop">
+                    <button class="user-button" id="userButton" aria-haspopup="true" aria-expanded="false">
+                        <div class="user__avatar" id="userAvatar">SP</div>
+                    </button>
+                    <div class="user__info">
+                        <span id="userGreeting">Olá, torcedor!</span>
+                        <small id="userEmail">--</small>
+                    </div>
+
+                    <nav class="user-menu" id="userMenu" aria-label="Menu do usuário">
+                        <ul>
+                            <li><a href="#" id="profileLink">Perfil</a></li>
+                            <li><a href="#" id="menuLogout">Sair</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <section class="form" id="dashboardPanel">
+
+                <div class="dashboard-grid">
+                    <article class="card-section">
+                        <h2>História</h2>
+                        <p>Fundado em 1930, o São Paulo Futebol Clube se tornou um dos clubes mais vitoriosos do Brasil e da América do Sul. Conhecido como Tricolor Paulista, construiu tradição de títulos e formação de grandes jogadores ao longo do século XX e XXI.</p>
+                    </article>
+
+                    <article class="card-section">
+                        <h2>Conquistas & Momentos</h2>
+                        <ul>
+                            <li>3× Copa Libertadores (1992, 1993, 2005)</li>
+                            <li>3× Mundial / Intercontinental (1992, 1993, 2005)</li>
+                            <li>Campeonatos Brasileiros: 1977, 1986, 1991, 2006, 2007, 2008 (entre outros)</li>
+                        </ul>
+                    </article>
+
+                    <article class="card-section">
+                        <h2>Títulos Principais</h2>
+                        <p>Libertadores, Campeonato Brasileiro (Série A), Copa do Brasil, Supercopa e outros troféus nacionais e internacionais.</p>
+                    </article>
+
+                    <article class="card-section">
+                        <h2>Jogadores Históricos</h2>
+                        <ul>
+                            <li>Rogério Ceni — goleiro e artilheiro lendário</li>
+                            <li>Raí — ídolo e líder nas conquistas internacionais</li>
+                            <li>Serginho Chulapa — centroavante decisivo</li>
+                            <li>Cafu, Leonardo, Toninho Cerezo — craques formados no passado</li>
+                        </ul>
+                    </article>
+
+                    <article class="card-section">
+                        <h2>Estádio</h2>
+                        <p>Morumbi (Estádio Cícero Pompeu de Toledo) — palco de grandes finais e partidas memoráveis.</p>
+                    </article>
+
+                    <article class="card-section">
+                        <h2>Momentos Icônicos</h2>
+                        <ul>
+                            <li>Dobradinha Libertadores + Mundial (início dos anos 1990)</li>
+                            <li>Trilogia de títulos nacionais na década de 2000</li>
+                        </ul>
+                    </article>
+
+                    <article class="card-section">
+                        <h2>Curiosidades</h2>
+                        <ul>
+                            <li>Tradição nas categorias de base e revelação de talentos.</li>
+                            <li>Rogério Ceni marcou mais de 100 gols, muitos em cobranças de falta e pênaltis.</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <div class="field" style="margin-top:18px">
+                    <button type="button" id="logoutBtn" class="btn btn--primary">Sair</button>
+                    <a href="index.html" class="link">Voltar para Login</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
