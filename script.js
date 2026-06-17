@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (dashboardPanel) {
         initDashboard(dashboardPanel, logoutBtn);
+        initQuiz();
     }
 
     function initLoginForm(form) {
@@ -335,6 +336,118 @@ document.addEventListener('DOMContentLoaded', () => {
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    }
+
+    /* --- Quiz do São Paulo (mini-game) --- */
+    function initQuiz() {
+        const startBtn = document.getElementById('startQuizBtn');
+        const restartBtn = document.getElementById('restartQuizBtn');
+        const nextBtn = document.getElementById('nextQuestionBtn');
+        const intro = document.getElementById('quizIntro');
+        const game = document.getElementById('quizGame');
+        const questionBox = document.getElementById('questionBox');
+        const optionsBox = document.getElementById('optionsBox');
+        const scoreBox = document.getElementById('quizScore');
+
+        if (!startBtn || !questionBox) return;
+
+        const initialQuestions = [
+            { q: 'Em que ano o São Paulo foi fundado?', options: ['1928', '1930', '1942', '1919'], a: 1 },
+            { q: 'Quantas Copas Libertadores o clube tem?', options: ['1', '2', '3', '4'], a: 2 },
+            { q: 'Quem é o goleiro-ídolo e maior goleiro-artilheiro?', options: ['Rogério Ceni', 'Cafu', 'Raí', 'Kempes'], a: 0 },
+            { q: 'Qual é o estádio do São Paulo?', options: ['Morumbi', 'Pacaembu', 'Allianz Parque', 'Maracanã'], a: 0 },
+            { q: 'Em que década o São Paulo conquistou a Tríplice Coroa com Libertadores e Mundial?', options: ['1980s', '1990s', '2000s', '2010s'], a: 1 }
+        ];
+
+        const hardQuestions = [
+            { q: 'Quem marcou o gol do título mundial de 2005?', options: ['Luis Fabiano', 'Mineiro', 'Juan', 'Hernanes'], a: 1 },
+            { q: 'Quantos gols Rogério Ceni marcou na carreira (aprox)?', options: ['~50', '~100', '~200', '~300'], a: 1 },
+            { q: 'Em que ano o São Paulo ganhou a Libertadores pela primeira vez?', options: ['1989', '1992', '1995', '2005'], a: 1 },
+            { q: 'Quem foi campeão do Brasileiro pelo São Paulo em 2008 (técnico)?', options: ['Muricy Ramalho', 'Dorival Júnior', 'Levir Culpi', 'Telê Santana'], a: 0 },
+            { q: 'Quantos títulos brasileiros (Série A) o clube possui (aprox)?', options: ['3', '6', '9', '12'], a: 1 }
+        ];
+
+        let currentSet = initialQuestions;
+        let current = 0;
+        let score = 0;
+        let hardMode = false;
+
+        function showQuestion(idx) {
+            const item = currentSet[idx];
+            questionBox.textContent = `${idx + 1}. ${item.q}`;
+            optionsBox.innerHTML = '';
+            item.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.width = '100%';
+                btn.textContent = opt;
+                btn.addEventListener('click', () => selectOption(i));
+                optionsBox.appendChild(btn);
+            });
+            scoreBox.textContent = `Pergunta ${idx+1} de ${currentSet.length} — Pontos: ${score}`;
+            if (nextBtn) { nextBtn.textContent = 'Próxima'; nextBtn.style.display = 'inline-block'; nextBtn.onclick = nextQuestion; }
+        }
+
+        function selectOption(i) {
+            const q = currentSet[current];
+            const buttons = Array.from(optionsBox.querySelectorAll('button'));
+            buttons.forEach((b, idx) => { b.disabled = true; if (idx === q.a) b.style.border = '2px solid #0a0'; });
+            if (i === q.a) { score++; }
+            scoreBox.textContent = `Pergunta ${current+1} de ${currentSet.length} — Pontos: ${score}`;
+        }
+
+        function nextQuestion() {
+            if (current < currentSet.length - 1) {
+                current++;
+                showQuestion(current);
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            // Show congratulations and allow progressing to hard mode
+            questionBox.textContent = `Parabéns! Você marcou ${score} de ${currentSet.length} pontos.`;
+            optionsBox.innerHTML = '';
+            scoreBox.textContent = '';
+            if (!hardMode) {
+                // offer hard mode
+                if (nextBtn) {
+                    nextBtn.textContent = 'Próxima Fase (Difícil)';
+                    nextBtn.onclick = startHardMode;
+                    nextBtn.style.display = 'inline-block';
+                }
+            } else {
+                // end of hard mode
+                if (nextBtn) nextBtn.style.display = 'none';
+                // final congrats message
+                const congrats = document.createElement('div');
+                congrats.style.marginTop = '12px';
+                congrats.style.fontWeight = '800';
+                congrats.style.color = '#8B0000';
+                congrats.textContent = '🎉 Parabéns! Você concluiu o Quiz Difícil!';
+                optionsBox.appendChild(congrats);
+            }
+        }
+
+        function startQuiz() {
+            currentSet = initialQuestions;
+            current = 0; score = 0; hardMode = false;
+            if (intro) intro.style.display = 'none';
+            if (game) game.style.display = 'block';
+            showQuestion(current);
+        }
+
+        function startHardMode() {
+            hardMode = true;
+            currentSet = hardQuestions;
+            current = 0; score = 0;
+            showQuestion(current);
+        }
+
+        startBtn.addEventListener('click', startQuiz);
+        if (nextBtn) nextBtn.onclick = nextQuestion;
+        if (restartBtn) restartBtn.addEventListener('click', () => { if (intro) intro.style.display = 'block'; if (game) game.style.display = 'none'; score = 0; current = 0; if (scoreBox) scoreBox.textContent = ''; if (nextBtn) nextBtn.style.display = 'inline-block'; });
     }
 
     function getUsers() {
